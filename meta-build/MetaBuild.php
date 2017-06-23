@@ -9,14 +9,13 @@ class MetaBuild {
 		$half_field = 0;
 
 		foreach($field_array as $field_group) {
-
-			$fields = '<h2 style="font-weight: bold">' . $field_group['name'] . '</h2>';
+			$fields = '<div class="nrw-crm-admin-form">';
+			$fields .= '<h2 style="font-weight: bold">' . $field_group['name'] . '</h2>';
 
 			$field_count = count($field_group['fields']);
 			if($field_group['split_columns']) {
 				$half_field = intdiv($field_count, 2);
-				$fields .= '<div class="hlf_column">';
-				p($half_field);
+				$fields .= '<div class="nrw-hlf-column">';
 			} else {
 				$fields .= '<div>';
 			}
@@ -24,7 +23,7 @@ class MetaBuild {
 			$count = 0;
 			foreach($field_group['fields'] as $field) {
 				if($field_group['split_columns'] && $count == $half_field) {
-					$fields .= '</div><div class="hlf_column">';
+					$fields .= '</div><div class="nrw-hlf-column">';
 				}
 				$value = null;
 				$type = $field['type'];
@@ -38,15 +37,13 @@ class MetaBuild {
 				if(isset($meta[$id]))
 					$value = $meta[$id];
 
-//				p($value);
-
 				$description = $field['description'];
 
 				switch($type) {
 					case 'text':
-						$fields .= '<div>';
-						$fields .= '<label>' . $label . '</label>';
-						$fields .= '&nbsp;&nbsp;&nbsp;<input type="' . $type . '" name="' . $name . '" id="' . $id . '" value="' . $value[0] . '" />';
+						$fields .= '<div class="nrw-admin-text-field">';
+						$fields .= '<div class="nrw-admin-form-label">' . $label . '</div>';
+						$fields .= '<div class="nrw-admin-form-input"><input type="' . $type . '" name="' . $name . '" id="' . $id . '" value="' . $value[0] . '" /></div>';
 						$fields .= '</div>';
 						break;
 					case 'textarea':
@@ -58,7 +55,7 @@ class MetaBuild {
 				}
 				$count++;
 			}
-			$fields .= '</div>';
+			$fields .= '</div></div>';
 
 			echo $fields;
 		}

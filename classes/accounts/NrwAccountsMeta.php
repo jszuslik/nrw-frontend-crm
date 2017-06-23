@@ -16,6 +16,7 @@ class NrwAccountsMeta {
 		add_action('add_meta_boxes', array($this, 'nrw_add_account_meta_boxes'));
 		add_action('add_meta_boxes', array($this, 'nrw_add_account_address_meta_boxes'));
 		add_action('save_post', array( $this, 'nrw_save_accounts_meta_data' ) );
+		add_action('admin_print_styles', array( $this, 'nrw_enqueue_form_styles'));
 
 		$this->nrw_account_meta_address = array(
 			array(
@@ -274,6 +275,13 @@ class NrwAccountsMeta {
 				}
 			}
 		}
+	}
+
+	public function nrw_enqueue_form_styles() {
+		wp_register_style('nrw-form-styles', plugins_url() . '/nrw-frontend-crm/styles/forms/forms.css');
+		wp_enqueue_style('nrw-form-styles');
+		wp_register_script('nrw-form-scripts', plugins_url() . '/nrw-frontend-crm/scripts/forms/forms.js');
+		wp_enqueue_script('nrw-form-scripts');
 	}
 
 }

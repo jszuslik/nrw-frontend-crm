@@ -1,0 +1,57 @@
+.nrw-crm-admin-form {
+    width: 100%;
+    min-width: 900px;
+    border: 0;
+    margin-top: 10px;
+    margin-bottom: 40px;
+}
+.nrw-hlf-column {
+    display: inline-block;
+    width: 45%;
+    padding: 20px;
+}
+.nrw-admin-text-field {
+    position: relative;
+    width: 100%;
+    padding: 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+.nrw-admin-form-label {
+    font-size: 1rem;
+    word-wrap: break-word;
+    vertical-align: top;
+    top: 1px;
+    padding: 19px 6px 6px 0!important;
+    color: #666;
+    display: inline-block;
+    width: 40%;
+    padding-right: 15px;
+    position: relative;
+}
+.nrw-admin-form-input {
+    font-size: 1rem;
+    word-wrap: break-word;
+    box-sizing: border-box;
+    color: #222;
+    width: 59%;
+    vertical-align: bottom;
+    display: inline-block;
+    position: relative;
+    padding: 19px 0 5px 0!important;
+    top: 1px;
+    border-bottom: 1px solid transparent;
+    transition: .3s all ease;
+}
+
+.nrw-admin-form-input input[type='text'] {
+    background-color: transparent;
+    padding: 0;
+    border: none!important;
+    box-shadow: none!important;
+    margin-bottom: 0!important;
+    max-width: 100%;
+    width: 100%;
+}
+.nrw-admin-form-input-focused {
+    border-bottom: 1px solid #69cff3!important;
+}

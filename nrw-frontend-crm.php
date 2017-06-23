@@ -29,12 +29,17 @@ if ( function_exists(NRW_PLUGIN_PREFIX . 'require_file') ) {
     nrw_require_file( NRW_CLASSES_DIR . 'accounts/NrwAccountsPostType.php');
 	nrw_require_file( NRW_CLASSES_DIR . 'accounts/NrwAccountsMeta.php');
 	nrw_require_file( NRW_CLASSES_DIR . 'contacts/NrwContactsPostType.php');
+	nrw_require_file( NRW_CLASSES_DIR . 'contacts/NrwContactsMeta.php');
 
 
 }
 register_activation_hook(__FILE__, array('NrwPages', 'nrw_add_private_page'));
 
 
+/**
+ * Used as a debugging tool
+ * @param $var
+ */
 function p($var) {
 	echo '<pre>';
 	var_dump($var);
