@@ -51,7 +51,7 @@ class NrwAccountsPostType {
             'show_in_nav_menus'     => false,
             'can_export'            => true,
             'has_archive'           => true,
-            'exclude_from_search'   => true,
+            'exclude_from_search'   => false,
             'publicly_queryable'    => true,
             'rewrite'               => false,
             'capability_type'       => 'page',

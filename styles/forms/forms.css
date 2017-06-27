@@ -10,7 +10,8 @@
     width: 45%;
     padding: 20px;
 }
-.nrw-admin-text-field {
+.nrw-admin-text-field,
+.nrw-admin-select-field {
     position: relative;
     width: 100%;
     padding: 0;
@@ -28,7 +29,8 @@
     padding-right: 15px;
     position: relative;
 }
-.nrw-admin-form-input {
+.nrw-admin-form-input,
+.nrw-admin-form-select {
     font-size: 1rem;
     word-wrap: break-word;
     box-sizing: border-box;
@@ -41,6 +43,12 @@
     top: 1px;
     border-bottom: 1px solid transparent;
     transition: .3s all ease;
+}
+
+.nrw-admin-form-select select {
+    border: 0;
+    background: transparent;
+    box-shadow: inset 0 0 0 transparent;
 }
 
 .nrw-admin-form-input input[type='text'] {

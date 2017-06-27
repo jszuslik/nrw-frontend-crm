@@ -26,6 +26,10 @@ if ( function_exists(NRW_PLUGIN_PREFIX . 'require_file') ) {
 	nrw_require_file( NRW_META_BUILD_DIR . 'MetaBuild.php');
 
     nrw_require_file( NRW_CLASSES_DIR . 'NrwPages.php');
+	nrw_require_file( NRW_CLASSES_DIR . 'NrwActions.php');
+	nrw_require_file( NRW_CLASSES_DIR . 'NrwScriptsStyles.php');
+
+	nrw_require_file( NRW_CLASSES_DIR . 'options/NrwOption.php');
     nrw_require_file( NRW_CLASSES_DIR . 'accounts/NrwAccountsPostType.php');
 	nrw_require_file( NRW_CLASSES_DIR . 'accounts/NrwAccountsMeta.php');
 	nrw_require_file( NRW_CLASSES_DIR . 'contacts/NrwContactsPostType.php');
@@ -45,3 +49,5 @@ function p($var) {
 	var_dump($var);
 	echo '</pre>';
 }
+
+

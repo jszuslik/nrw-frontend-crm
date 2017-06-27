@@ -16,7 +16,6 @@ class NrwAccountsMeta {
 		add_action('add_meta_boxes', array($this, 'nrw_add_account_meta_boxes'));
 		add_action('add_meta_boxes', array($this, 'nrw_add_account_address_meta_boxes'));
 		add_action('save_post', array( $this, 'nrw_save_accounts_meta_data' ) );
-		add_action('admin_print_styles', array( $this, 'nrw_enqueue_form_styles'));
 
 		$this->nrw_account_meta_address = array(
 			array(
@@ -41,8 +40,10 @@ class NrwAccountsMeta {
 					),
 					MetaBuild::create_field_array(
 						array(
+							'type' => 'select',
 							'name' => 'nrw_billing_state',
 							'id' => 'nrw_billing_state',
+							'options' => MetaBuild::list_of_states(),
 							'meta_id' => $this->stored_meta_data,
 							'label' => __('Billing State', NRW_TEXT_DOMAIN)
 						)
@@ -81,9 +82,11 @@ class NrwAccountsMeta {
 					),
 					MetaBuild::create_field_array(
 						array(
+							'type' => 'select',
 							'name' => 'nrw_shipping_state',
 							'id' => 'nrw_shipping_state',
 							'meta_id' => $this->stored_meta_data,
+							'options' => MetaBuild::list_of_states(),
 							'label' => __('Shipping State', NRW_TEXT_DOMAIN)
 						)
 					),
@@ -130,8 +133,10 @@ class NrwAccountsMeta {
 					),
 					MetaBuild::create_field_array(
 						array(
+							'type' => 'select',
 							'name' => 'nrw_account_parent',
 							'id' => 'nrw_account_parent',
+							'options' => MetaBuild::get_posts_by_post_type('nrw_accounts'),
 							'meta_id' => $this->stored_meta_data,
 							'label' => __('Parent Account', NRW_TEXT_DOMAIN)
 						)
@@ -146,8 +151,10 @@ class NrwAccountsMeta {
 					),
 					MetaBuild::create_field_array(
 						array(
+							'type' => 'select',
 							'name' => 'nrw_account_type',
 							'id' => 'nrw_account_type',
+							'options' => MetaBuild::account_types(),
 							'meta_id' => $this->stored_meta_data,
 							'label' => __('Account Type', NRW_TEXT_DOMAIN)
 						)
@@ -170,8 +177,10 @@ class NrwAccountsMeta {
 					),
 					MetaBuild::create_field_array(
 						array(
+							'type' => 'select',
 							'name' => 'nrw_account_rating',
 							'id' => 'nrw_account_rating',
+							'options' => MetaBuild::ratings(),
 							'meta_id' => $this->stored_meta_data,
 							'label' => __('Rating', NRW_TEXT_DOMAIN)
 						)
@@ -210,8 +219,10 @@ class NrwAccountsMeta {
 					),
 					MetaBuild::create_field_array(
 						array(
+							'type' => 'select',
 							'name' => 'nrw_account_ownership',
 							'id' => 'nrw_account_ownership',
+							'options' => MetaBuild::types_of_ownership(),
 							'meta_id' => $this->stored_meta_data,
 							'label' => __('Ownership', NRW_TEXT_DOMAIN)
 						)
@@ -277,12 +288,9 @@ class NrwAccountsMeta {
 		}
 	}
 
-	public function nrw_enqueue_form_styles() {
-		wp_register_style('nrw-form-styles', plugins_url() . '/nrw-frontend-crm/styles/forms/forms.css');
-		wp_enqueue_style('nrw-form-styles');
-		wp_register_script('nrw-form-scripts', plugins_url() . '/nrw-frontend-crm/scripts/forms/forms.js');
-		wp_enqueue_script('nrw-form-scripts');
-	}
+
+
+
 
 }
 $nrw_accounts_meta = new NrwAccountsMeta();
