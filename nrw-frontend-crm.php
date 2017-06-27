@@ -22,11 +22,11 @@ function nrw_require_file( $path ) {
 }
 if ( function_exists(NRW_PLUGIN_PREFIX . 'require_file') ) {
     $plugin_dir = plugin_dir_path(__FILE__);
-
+	nrw_require_file( NRW_CLASSES_DIR . 'NrwActions.php');
 	nrw_require_file( NRW_META_BUILD_DIR . 'MetaBuild.php');
 
     nrw_require_file( NRW_CLASSES_DIR . 'NrwPages.php');
-	nrw_require_file( NRW_CLASSES_DIR . 'NrwActions.php');
+
 	nrw_require_file( NRW_CLASSES_DIR . 'NrwScriptsStyles.php');
 
 	nrw_require_file( NRW_CLASSES_DIR . 'options/NrwOption.php');

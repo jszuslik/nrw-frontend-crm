@@ -169,6 +169,7 @@ class NrwAccountsMeta {
 					),
 					MetaBuild::create_field_array(
 						array(
+							'type' => 'currency',
 							'name' => 'nrw_account_revenue',
 							'id' => 'nrw_account_revenue',
 							'meta_id' => $this->stored_meta_data,
@@ -187,16 +188,18 @@ class NrwAccountsMeta {
 					),
 					MetaBuild::create_field_array(
 						array(
-							'name' => 'nrw_account_phone',
-							'id' => 'nrw_account_phone',
+							'type' => 'phone',
+							'name' => 'nrw_phone',
+							'id' => 'nrw_phone',
 							'meta_id' => $this->stored_meta_data,
 							'label' => __('Phone', NRW_TEXT_DOMAIN)
 						)
 					),
 					MetaBuild::create_field_array(
 						array(
-							'name' => 'nrw_account_fax',
-							'id' => 'nrw_account_fax',
+							'type' => 'phone',
+							'name' => 'nrw_fax',
+							'id' => 'nrw_fax',
 							'meta_id' => $this->stored_meta_data,
 							'label' => __('Fax', NRW_TEXT_DOMAIN)
 						)

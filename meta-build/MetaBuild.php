@@ -55,6 +55,27 @@ class MetaBuild {
 						$fields .= '<div class="nrw-admin-form-input"><input type="' . $type . '" name="' . $name . '" id="' . $id . '" value="' . $value[0] . '" /></div>';
 						$fields .= '</div>';
 						break;
+					case 'currency':
+						$fields .= '<div class="nrw-admin-text-field">';
+						$fields .= '<div class="nrw-admin-form-label">' . $label . '</div>';
+						$fields .= '<div class="nrw-admin-form-input"><input type="text" data-a-sign="$ " name="' . $name . '" id="' . $id . '" value="' . $value[0] . '" /></div>';
+						$fields .= '</div>';
+						break;
+					case 'phone':
+						$fields .= '<div class="nrw-admin-text-field">';
+						$fields .= '<div class="nrw-admin-form-label">' . $label . '</div>';
+						$fields .= '<div class="nrw-admin-form-input"><input class="nrw_phone" type="text" name="' . $name . '" id="' . $id . '" value="' . $value[0] . '" /></div>';
+						$fields .= '</div>';
+						break;
+					case 'dob':
+						$fields .= '<div class="nrw-admin-text-field">';
+						$fields .= '<div class="nrw-admin-form-label">' . $label . '</div>';
+						$fields .= '<div class="nrw-admin-form-input"><input class="nrw_dob" type="text" name="' . $name . '" id="' . $id . '" value="' . $value[0] . '" /></div>';
+						$fields .= '</div>';
+						break;
+					case 'checkbox':
+
+						break;
 					case 'textarea':
 
 						break;
@@ -68,7 +89,6 @@ class MetaBuild {
 						} else {
 							$fields .= '<option value="none">None</option>';
 						}
-						//p($options);
 						foreach($options as $option) {
 							if($value[0] == $option->ID) {
 								$fields .= '<option selected value="' . $option->ID . '">' . $option->post_title . '</option>';

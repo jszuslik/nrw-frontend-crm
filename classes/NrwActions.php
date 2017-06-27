@@ -3,15 +3,15 @@
 class NrwActions {
 
 	public function __construct() {
-		add_action( 'post_submitbox_misc_actions' , array($this, 'nrw_set_to_private' ));
-		add_action( 'transition_post_status', array($this,'nrw_set_post_status_private'), 10, 3 );
+		 add_action( 'post_submitbox_misc_actions' , array($this, 'nrw_set_to_private' ));
+		 add_action( 'transition_post_status', array($this,'nrw_set_post_status_private'), 10, 3 );
 	}
 
-	function nrw_set_to_private(){
+	public function nrw_set_to_private(){
 		global $post;
 		if ($post->post_type != 'nrw_accounts')
 			return;
-		$message = __('<strong>Note:</strong> Published posts are always <strong>private</strong>.');
+		$message = __('<strong>Note:</strong> Accounts are always <strong>private</strong>.');
 		$post->post_password = '';
 		$visibility = 'private';
 		$visibility_trans = __('Private');
@@ -39,12 +39,13 @@ class NrwActions {
 		<?php
 	}
 
-	function nrw_set_post_status_private( $new_status, $old_status, $post ) {
+	public function nrw_set_post_status_private( $new_status, $old_status, $post ) {
 		if ( $post->post_type == 'nrw_accounts' && $new_status == 'publish' && $old_status  != $new_status ) {
 			$post->post_status = 'private';
 			wp_update_post( $post );
 		}
 	}
+
 
 }
 $nrw_actions = new NrwActions();
