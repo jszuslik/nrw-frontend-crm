@@ -3,6 +3,7 @@
 class MetaBuild {
 
 	public function __construct() {
+		add_action('admin_init', array( $this, 'trash_and_redirect' ));
 	}
 
 	public static function nrw_do_meta_fields($field_array, $meta) {
@@ -74,7 +75,13 @@ class MetaBuild {
 						$fields .= '</div>';
 						break;
 					case 'checkbox':
+						$fields .= '<div class="nrw-admin-text-field">';
+						$fields .= '<div class="nrw-admin-form-label">' . $label . '</div>';
 
+						$fields .= '<div class="nrw-admin-form-input">';
+						$fields .= '<input type="hidden" name="' . $name . '" id="' . $id . '" value="0" />';
+						$fields .= '<input type="checkbox" name="' . $name . '" id="' . $id . '" value="1" ' . checked ( TRUE, $value[0], false ) . ' /></div>';
+						$fields .= '</div>';
 						break;
 					case 'textarea':
 
@@ -277,6 +284,27 @@ class MetaBuild {
 		return MetaBuild::set_new_options($ratings);
 	}
 
+	public static function lead_sources() {
+		$lead_sources = array(
+			'ADV' => 'Advertisement',
+			'COL' => 'Cold Call',
+			'EMR' => 'Employee Referral',
+			'EXR' => 'External Referral',
+			'ONL' => 'Online Store',
+			'PAR' => 'Partner',
+			'PUB' => 'Public Relations',
+			'SMA' => 'Sales Mail Alias',
+			'SEM' => 'Seminar Internal',
+			'TRD' => 'Trade Show',
+			'WBD' => 'Web Download',
+			'WBR' => 'Web Research',
+			'WBC' => 'Web Cases',
+			'WBM' => 'Web Mail',
+			'CHT' => 'Chat'
+		);
+		return MetaBuild::set_new_options($lead_sources);
+	}
+
 	private static function set_new_options($options_array) {
 		$options = array();
 		foreach($options_array as $key => $value) {
@@ -285,4 +313,9 @@ class MetaBuild {
 		return $options;
 	}
 
+	public static function trash_and_redirect() {
+
+	}
+
 }
+$nrw_meta_build = new MetaBuild();

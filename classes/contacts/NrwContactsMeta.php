@@ -110,8 +110,10 @@ class NrwContactsMeta {
 					),
 					MetaBuild::create_field_array(
 						array(
+							'type' => 'select',
 							'name' => 'nrw_lead_source',
 							'id' => 'nrw_lead_source',
+							'options' => MetaBuild::lead_sources(),
 							'meta_id' => $this->stored_meta_data,
 							'label' => __('Lead Source', NRW_TEXT_DOMAIN)
 						)
@@ -161,6 +163,7 @@ class NrwContactsMeta {
 					),
 					MetaBuild::create_field_array(
 						array(
+							'type' => 'checkbox',
 							'name' => 'nrw_email_opt_out',
 							'id' => 'nrw_email_opt_out',
 							'meta_id' => $this->stored_meta_data,
@@ -289,10 +292,10 @@ class NrwContactsMeta {
 		);
 	}
 
-	public function nrw_add_contact_address_meta_boxes( $post ) {
+	public function nrw_add_contact_address_meta_boxes() {
 		add_meta_box( 'nrw_contact_address_meta_box', __('Contact Address', NRW_TEXT_DOMAIN), array($this, 'nrw_contact_address_build_meta_box'), 'nrw_contacts', 'normal', 'high');
 	}
-	public function nrw_add_contact_meta_boxes( $post ) {
+	public function nrw_add_contact_meta_boxes() {
 		add_meta_box( 'nrw_contact_info_meta_box', __('Contact Information', NRW_TEXT_DOMAIN), array($this, 'nrw_contact_info_build_meta_box'), 'nrw_contacts', 'normal', 'high');
 	}
 
@@ -324,7 +327,12 @@ class NrwContactsMeta {
 		foreach ($this->nrw_contact_meta_info as $field_group) {
 			foreach($field_group['fields'] as $field) {
 				if (isset($_POST[$field['id']])) {
-					update_post_meta( $post_id, $field['id'], sanitize_text_field($_POST[$field['id']] ) );
+					if($field['type'] == 'checkbox') {
+						update_post_meta( $post_id, $field['id'], $_POST[$field['id']] );
+					} else {
+						update_post_meta( $post_id, $field['id'], sanitize_text_field($_POST[$field['id']] ) );
+					}
+
 				}
 			}
 		}

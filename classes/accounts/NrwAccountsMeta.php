@@ -290,10 +290,5 @@ class NrwAccountsMeta {
 			}
 		}
 	}
-
-
-
-
-
 }
 $nrw_accounts_meta = new NrwAccountsMeta();
