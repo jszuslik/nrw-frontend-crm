@@ -11,10 +11,34 @@ jQuery(document).ready( function($) {
         // bind drag events to Packery
         $grid.packery( 'bindDraggabillyEvents', draggie );
     });
+
+    function save_main_options_ajax() {
+        var form = $('#nrw-dashboard-options');
+        $.ajax( {
+            type: "POST",
+            url: "options.php",
+            data: form.serialize(),
+            success: function( response ) {
+                console.log(response);
+            }
+        });
+
+    }
+
     function orderItems() {
         var itemElems = $grid.packery('getItemElements');
         $( itemElems ).each( function( i, itemElem ) {
-            console.log(i + 1, itemElem.id);
+            var inputArr = $(itemElem).find(':input');
+            var left = $(itemElem).css('left');
+            var top = $(itemElem).css('top');
+            var input1 = $(inputArr[0]);
+            input1.val(i + 1);
+            var input2 = $(inputArr[1]);
+            input2.val(left);
+            var input3 = $(inputArr[2]);
+            input3.val(top);
+
+            save_main_options_ajax();
         });
 
     }
@@ -48,7 +72,6 @@ jQuery(document).ready( function($) {
             var repeat_header = $(document.createElement('tr'));
             repeat_header.addClass("repeated-header");
             for(var j=0; j < this.headers.length; j++) {
-                console.log(this.headers[j]);
                 repeat_header.append("<th>" + this.headers[j] + "</th>");
             }
 
@@ -56,11 +79,10 @@ jQuery(document).ready( function($) {
             $("tr.repeated-header",table).remove();
 
             // loop all tr elements and insert a copy of the "headers"
-            for(var i=0; i < table.tBodies[0].rows.length; i++) {
+            for(var i = 1; i < table.tBodies[0].rows.length; i++) {
 
-                // insert a copy of the table head every 10th row
-                if((i / 3) === 1) {
-                    console.log(repeat_header);
+                // insert a copy of the table head every 5th row
+                if((i % 4) === 0) {
                     $("tbody tr:eq(" + i + ")").before(
                         repeat_header
                     );
@@ -69,12 +91,10 @@ jQuery(document).ready( function($) {
         }
     });
 
-    $("#accountsTable").tablesorter({sortList: [[0,0]], widgets: ['zebra', 'repeatHeaders']});
+    $("#accountsTable").tablesorter({sortList: [[0,0]], widgets: ['zebra']});
 
-    $("#contactsTable").tablesorter({
-        // sort on the first column and third column, order asc
-        sortList: [[4,0],[1,0]]
-    });
+    $("#contactsTable").tablesorter({sortList: [[4,0],[1,0]], widgets: ['zebra']});
+
 } );
 
 (function(document) {

@@ -69,3 +69,7 @@
 .nrw-admin-form-input-focused {
     border-bottom: 1px solid #69cff3!important;
 }
+#minor-publishing-actions,
+.misc-pub-section {
+    display: none;
+}

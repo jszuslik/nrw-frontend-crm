@@ -34,7 +34,7 @@ class NrwActions {
 		}
 	}
 
-	public function set_meta_message($post, $message) {
+	public static function set_meta_message($post, $message) {
 		$post->post_password = '';
 		$visibility = 'private';
 		$visibility_trans = __('Private');

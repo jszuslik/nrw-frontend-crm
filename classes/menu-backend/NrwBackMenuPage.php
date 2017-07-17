@@ -9,12 +9,13 @@ class NrwBackMenuPage {
 		add_action('admin_init', array($this, 'register_dashboard_options'));
 		add_action('admin_init', array($this, 'register_account_options'));
 		add_action('admin_init', array($this, 'register_contact_options'));
-		add_action('admin_menu', array($this, 'add_custom_link_into_appearnace_menu'));
+		add_action('admin_menu', array($this, 'add_main_links_into_menu'));
 
 	}
 
 	public function nrw_add_back_menu_page() {
-		add_menu_page(
+	    global $nrw_crm_main_menu;
+		$nrw_crm_main_menu = add_menu_page(
 			'NRW CRM',
 			'NRW CRM',
 			'manage_options',
@@ -24,7 +25,7 @@ class NrwBackMenuPage {
 
 	}
 
-	public function add_custom_link_into_appearnace_menu() {
+	public function add_main_links_into_menu() {
 		global $submenu;
 		$dashboard_link = 'admin.php?page=nrw_backend_main_menu&tab=dashboard';
 		$contacts_link = 'admin.php?page=nrw_backend_main_menu&tab=contacts';
@@ -34,7 +35,18 @@ class NrwBackMenuPage {
 		$submenu[NRW_BACKEND_MENU_SLUG][] = array( 'Contacts', 'manage_options', $contacts_link );
 	}
 
-	public function nrw_add_menu_options() { ?>
+	public function nrw_add_menu_options() {
+	    global $nrw_dashboard_tabs;
+
+	    $this->options = get_option('nrw_dashboard_options');
+
+	    $nrw_dashboard_tabs['1'] = array('dashboard' => 'Dashboard');
+		$nrw_dashboard_tabs['2'] = array('accounts' => 'Accounts');
+		$nrw_dashboard_tabs['3'] = array('contacts' => 'Contacts');
+
+		// p($this->options);
+
+	    ?>
 
 		<div class="wrap">
 			<h2>Welcome to NRW CRM App</h2>
@@ -43,32 +55,24 @@ class NrwBackMenuPage {
 			<?php $active_tab = isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : 'dashboard'; ?>
 
 			<h2 class="nav-tab-wrapper">
-				<a href="?page=nrw_backend_main_menu&tab=dashboard" class="nav-tab <?php echo $active_tab == 'dashboard' ? 'nav-tab-active' : ''; ?>">Dashboard</a>
-				<a href="?page=nrw_backend_main_menu&tab=accounts" class="nav-tab <?php echo $active_tab == 'accounts' ? 'nav-tab-active' : ''; ?>">Accounts</a>
-				<a href="?page=nrw_backend_main_menu&tab=contacts" class="nav-tab <?php echo $active_tab == 'contacts' ? 'nav-tab-active' : ''; ?>">Contacts</a>
+                <?php
+
+                ksort($nrw_dashboard_tabs);
+                foreach($nrw_dashboard_tabs as $dashboard_tab) :
+	                foreach($dashboard_tab as $key => $value) :?>
+				    <a href="?page=nrw_backend_main_menu&tab=<?php echo $key; ?>" class="nav-tab <?php echo $active_tab == $key ? 'nav-tab-active' : ''; ?>"><?php echo $value; ?></a>
+				<?php endforeach; endforeach; ?>
 			</h2>
 
-			<form method="post" action="options.php">
+			<form method="post" action="options.php" id="nrw-dashboard-options">
 
+                <?php
 
+                ?>
 
-				<?php if ($active_tab == 'dashboard') { ?>
-					<?php
-					//$this->print_dashboard_widgets();
-					?>
-				<?php settings_fields('nrw_dashboard_group'); ?>
-				<?php do_settings_sections('nrw_dashboard_group'); ?>
-			<?php } elseif ($active_tab == 'accounts') { ?>
-				<?php settings_fields('nrw_account_group'); ?>
-				<?php do_settings_sections('nrw_account_group'); ?>
-					<?php submit_button(); ?>
-			<?php } elseif ($active_tab == 'contacts') { ?>
-				<?php settings_fields('nrw_contact_group'); ?>
-				<?php do_settings_sections('nrw_contact_group'); ?>
-					<?php submit_button(); ?>
-			<?php } ?>
-
-
+				<?php settings_fields('nrw_' . $active_tab . '_group'); ?>
+				<?php do_settings_sections('nrw_' . $active_tab . '_group'); ?>
+                <?php // submit_button(); ?>
 
 			</form>
 		</div>
@@ -88,11 +92,78 @@ class NrwBackMenuPage {
 			array($this, 'print_dashboard_widgets'),
 			'nrw_dashboard_group'
 		);
+		add_settings_field(
+            'accounts_position',
+            '',
+            array($this, 'hidden_accounts_position'),
+            'nrw_dashboard_group',
+            'logged_in_user'
+        );
+		add_settings_field(
+			'accounts_left',
+			'',
+			array($this, 'hidden_accounts_left'),
+			'nrw_dashboard_group',
+			'logged_in_user'
+		);
+		add_settings_field(
+			'accounts_top',
+			'',
+			array($this, 'hidden_accounts_top'),
+			'nrw_dashboard_group',
+			'logged_in_user'
+		);
+		add_settings_field(
+			'contacts_position',
+			'',
+			array($this, 'hidden_contacts_position'),
+			'nrw_dashboard_group',
+			'logged_in_user'
+		);
+		add_settings_field(
+			'contacts_left',
+			'',
+			array($this, 'hidden_contacts_left'),
+			'nrw_dashboard_group',
+			'logged_in_user'
+		);
+	}
+
+	public function hidden_accounts_position() {
+	    printf(
+	            '<input type="hidden" id="accounts_position" name="accounts_position" value="%s" />',
+                isset($this->options['accounts_position']) ? esc_attr($this->options['accounts_position']) : ''
+        );
+    }
+	public function hidden_accounts_left() {
+		printf(
+			'<input type="hidden" id="accounts_left" name="accounts_left" value="%s" />',
+			isset($this->options['accounts_left']) ? esc_attr($this->options['accounts_left']) : ''
+		);
+	}
+	public function hidden_accounts_top() {
+		printf(
+			'<input type="hidden" id="accounts_top" name="accounts_top" value="%s" />',
+			isset($this->options['accounts_top']) ? esc_attr($this->options['accounts_top']) : ''
+		);
+	}
+
+	public function hidden_contacts_position() {
+		printf(
+			'<input type="hidden" id="contacts_position" name="contacts_position" value="%s" />',
+			isset($this->options['contacts_position']) ? esc_attr($this->options['contacts_position']) : ''
+		);
+	}
+	public function hidden_contacts_left() {
+		printf(
+			'<input type="hidden" id="contacts_left" name="contacts_left" value="%s" />',
+			isset($this->options['contacts_left']) ? esc_attr($this->options['contacts_left']) : ''
+		);
 	}
 
 	public function register_account_options() {
 		register_setting(
-			'nrw_account_group',
+			'nrw_accounts_group',
 			'nrw_account_options',
 			array( $this, 'sanitize')
 		);
@@ -100,13 +171,13 @@ class NrwBackMenuPage {
 			'list_accounts',
 			'Accounts',
 			array($this, 'print_accounts_list'),
-			'nrw_account_group'
+			'nrw_accounts_group'
 		);
 	}
 
 	public function register_contact_options() {
 		register_setting(
-			'nrw_contact_group',
+			'nrw_contacts_group',
 			'nrw_contact_options',
 			array( $this, 'sanitize')
 		);
@@ -114,7 +185,7 @@ class NrwBackMenuPage {
 			'list_contacts',
 			'Contacts',
 			array($this, 'print_contacts_list'),
-			'nrw_contact_group'
+			'nrw_contacts_group'
 		);
 	}
 
@@ -139,32 +210,53 @@ class NrwBackMenuPage {
 
         $args = array(
             'post_status' => 'private',
-            'post_type' => 'nrw_accounts'
+            'post_type' => 'nrw_accounts',
+	        'posts_per_page' => -1
         );
         $accounts = get_posts($args);
 
-        $content = '<input type="search" class="light-table-filter" data-table="accounts_sorter" placeholder="Filter">';
-        $content .= '<table id="accountsTable" class="tablesorter accounts_sorter">';
-        $content .= '<thead>';
-        $content .= '<tr class="row">';
-		$content .= '<th class="cell">Company</th>';
-		$content .= '<th class="cell">Phone</th>';
-		$content .= '<th class="cell">Website</th>';
-		$content .= '</tr>';
-		$content .= '</thead>';
-		$content .= '<tbody>';
-        foreach ($accounts as $account) {
-            $content .= '<tr class="row">';
-            $content .= '<td class="cell">' . $account->post_title . '</td>';
-	        $content .= '<td class="cell">' . get_post_meta($account->ID, 'nrw_phone', true) . '</td>';
-	        $content .= '<td class="cell">' . get_post_meta($account->ID, 'nrw_account_website', true) . '</td>';
+        $data_sets = array();
+		foreach ($accounts as $account) {
+		    $company = $account->post_title;
+		    $phone = get_post_meta($account->ID, 'nrw_phone', true);
+		    $website = get_post_meta($account->ID, 'nrw_account_website', true);
 
-	        $content .= '</tr>';
+		    $data_sets[] = array( $company, $phone, $website );
+		}
+
+		$options = get_option('nrw_dashboard_options');
+		$position = $options['accounts_position'];
+		$left = $options['accounts_left'];
+		$top = $options['accounts_top'];
+
+		if(!$position) {
+		    $options['accounts_position'] = '1';
+			$position = $options['accounts_position'];
+		    update_option('nrw_dashboard_options', $options);
         }
-		$content .= '</tbody>';
-        $content .= '</table>';
-        $content .= '<ul id="pagination-demo" class="pagination-sm"></ul>';
-		$nrw_dashboard_widgets[] = new NrwDashboardMetaBox(40, __('Accounts', NRW_TEXT_DOMAIN), $content);
+
+		if(!$left) {
+			$options['accounts_left'] = '0px';
+			$left = $options['accounts_left'];
+			update_option('nrw_dashboard_options', $options);
+		}
+
+		if(!$top) {
+			$options['accounts_top'] = '0px';
+			$top = $options['accounts_top'];
+			update_option('nrw_dashboard_options', $options);
+		}
+
+		$array = array(
+			'type' => 'accounts',
+			'headers' => array( 'Company', 'Phone', 'Website' ),
+			'data_sets' => $data_sets
+		);
+
+		$content = NrwHelpers::create_dashboard_widget_table($array);
+
+		$nrw_dashboard_widgets[] = new NrwDashboardMetaBox(40, __('Accounts', NRW_TEXT_DOMAIN),
+                                                           $content, $position, $left, $top);
     }
 
 	public function add_contacts_dashboard_widget() {
@@ -172,40 +264,57 @@ class NrwBackMenuPage {
 
 		$args = array(
 			'post_status' => 'private',
-			'post_type' => 'nrw_contacts'
+			'post_type' => 'nrw_contacts',
+            'posts_per_page' => -1
 		);
 		$contacts = get_posts($args);
 
-		$content = '<input type="search" class="light-table-filter" data-table="contacts_sorter" placeholder="Filter">';
-		$content .= '<div class="table-wrapper">';
-		$content .= '<table id="contactsTable" class="tablesorter contacts_sorter">';
-		$content .= '<thead>';
-		$content .= '<tr class="row">';
-		$content .= '<th class="cell">First Name</th>';
-		$content .= '<th class="cell">Last Name</th>';
-		$content .= '<th class="cell">Phone</th>';
-		$content .= '<th class="cell">Email</th>';
-		$content .= '<th class="cell">Company</th>';
-		$content .= '</tr>';
-		$content .= '</thead>';
-		$content .= '<tbody>';
+		$data_sets = array();
 		foreach ($contacts as $contact) {
-			$content .= '<tr class="row">';
-			$content .= '<td class="cell">' . get_post_meta($contact->ID, 'nrw_first_name', true) . '</td>';
-			$content .= '<td class="cell">' . get_post_meta($contact->ID, 'nrw_last_name', true) . '</td>';
-			$content .= '<td class="cell">' . get_post_meta($contact->ID, 'nrw_phone', true) . '</td>';
-			$content .= '<td class="cell">' . get_post_meta($contact->ID, 'nrw_email_address', true) . '</td>';
+			$first_name = get_post_meta($contact->ID, 'nrw_first_name', true);
+			$last_name = get_post_meta($contact->ID, 'nrw_last_name', true);
+			$phone = get_post_meta($contact->ID, 'nrw_phone', true);
+			$email = get_post_meta($contact->ID, 'nrw_email_address', true);
+
 			$account_id = get_post_meta($contact->ID, 'nrw_account_name', true);
-			$account_name = get_the_title($account_id);
-			$content .= '<td class="cell">' . $account_name . '</td>';
+			$account = get_the_title($account_id);
 
-			$content .= '</tr>';
+			$data_sets[] = array( $first_name, $last_name, $phone, $email, $account );
 		}
-		$content .= '</tbody>';
-		$content .= '</table>';
-		$content .= '</div>';
 
-		$nrw_dashboard_widgets[] = new NrwDashboardMetaBox(50, __('Contacts', NRW_TEXT_DOMAIN), $content);
+		$options = get_option('nrw_dashboard_options');
+		$position = $options['contacts_position'];
+		$left = $options['contacts_left'];
+		$top = $options['contacts_top'];
+
+		if(!$position) {
+			$options['contacts_position'] = '2';
+			$position = $options['contacts_position'];
+			update_option('nrw_dashboard_options', $options);
+		}
+
+		if(!$left) {
+			$options['contacts_left'] = '0px';
+			$left = $options['contacts_left'];
+			update_option('nrw_dashboard_options', $options);
+		}
+
+		if(!$top) {
+			$options['contacts_top'] = '0px';
+			$top = $options['contacts_top'];
+			update_option('nrw_dashboard_options', $options);
+		}
+
+		$array = array(
+			'type' => 'contacts',
+			'headers' => array( 'First Name', 'Last Name', 'Phone', 'Email', 'Company' ),
+			'data_sets' => $data_sets
+		);
+
+		$content = NrwHelpers::create_dashboard_widget_table($array);
+
+		$nrw_dashboard_widgets[] = new NrwDashboardMetaBox(50, __('Contacts',
+                                                                  NRW_TEXT_DOMAIN), $content, $position, $left, $top);
 	}
 
 	public function print_accounts_list() {
@@ -217,23 +326,8 @@ class NrwBackMenuPage {
 			'screen' => $screen
 		);
 		$accounts = new NrwAccountsList($args);
-		?>
-		<div id="poststuff">
-			<div id="post-body" class="metabox-holder columns-2">
-				<div id="post-body-content">
-					<div class="meta-box-sortables ui-sortable">
-						<form method="post">
-							<?php
-							$accounts->prepare_items();
-							$accounts->display(); ?>
-						</form>
-					</div>
-				</div>
-			</div>
-			<br class="clear">
-		</div>
 
-		<?php
+		NrwHelpers::create_standard_wp_post_list($accounts);
 	}
 
 	public function print_contacts_list() {
@@ -244,23 +338,8 @@ class NrwBackMenuPage {
 			'screen' => $screen
 		);
 		$contacts = new NrwContactsList($args);
-		?>
-		<div id="poststuff">
-			<div id="post-body" class="metabox-holder columns-2">
-				<div id="post-body-content">
-					<div class="meta-box-sortables ui-sortable">
-						<form method="post">
-							<?php
-							$contacts->prepare_items();
-							$contacts->display(); ?>
-						</form>
-					</div>
-				</div>
-			</div>
-			<br class="clear">
-		</div>
 
-		<?php
+		NrwHelpers::create_standard_wp_post_list($contacts);
 	}
 
 }

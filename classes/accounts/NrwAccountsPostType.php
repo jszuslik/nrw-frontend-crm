@@ -41,7 +41,7 @@ class NrwAccountsPostType {
             'label'                 => __( 'Account', 'nrw-frontend-crm' ),
             'description'           => __( 'Client Account', 'nrw-frontend-crm' ),
             'labels'                => $labels,
-            'supports'              => array( 'title', 'author', 'thumbnail', ),
+            'supports'              => array( 'title', 'author', ),
             'hierarchical'          => false,
             'public'                => false,
             'show_ui'               => true,

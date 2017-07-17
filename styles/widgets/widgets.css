@@ -90,7 +90,7 @@
 /* tables */
 .table-wrapper {
     display: block;
-    max-height: 100px;
+    max-height: 255px;
     overflow-y: auto;
 }
 table.tablesorter {

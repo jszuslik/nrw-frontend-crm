@@ -284,7 +284,7 @@ class MetaBuild {
 		return MetaBuild::set_new_options($ratings);
 	}
 
-	public static function lead_sources() {
+	public static function lead_source_data() {
 		$lead_sources = array(
 			'ADV' => 'Advertisement',
 			'COL' => 'Cold Call',
@@ -302,7 +302,11 @@ class MetaBuild {
 			'WBM' => 'Web Mail',
 			'CHT' => 'Chat'
 		);
-		return MetaBuild::set_new_options($lead_sources);
+		return $lead_sources;
+	}
+
+	public static function lead_sources() {
+		return MetaBuild::set_new_options(MetaBuild::lead_source_data());
 	}
 
 	private static function set_new_options($options_array) {
