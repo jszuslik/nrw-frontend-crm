@@ -22,8 +22,18 @@ class NrwHelpers {
 		$content .= '<tbody>';
 		foreach ($data_sets as $data_set) {
 			$content .= '<tr class="row">';
-			foreach($data_set as $data) {
-				$content .= '<td class="cell">' . $data . '</td>';
+			foreach($data_set as $key => $value) {
+				if($key === 'id') {
+					$id = $value;
+				} else {
+					if(isset($id)) {
+						$post_link = get_edit_post_link( $id );
+						$cell_data = sprintf(
+							'<td class="cell"><a href="%s">%s</a></td>',
+							get_edit_post_link( $id ), $value);
+						$content .= $cell_data;
+					}
+				}
 			}
 
 
