@@ -17,7 +17,9 @@ class NrwPages {
         );
 
         foreach ($private_pages as $private_page) {
-            wp_insert_post($private_page, true);
+        	if(!get_page_by_path($private_page['post_title'])) {
+		        wp_insert_post($private_page, true);
+	        }
         }
 
     }

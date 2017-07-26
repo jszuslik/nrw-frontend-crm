@@ -218,6 +218,7 @@ class NrwBackMenuPage {
         $data_sets = array();
 		foreach ($accounts as $account) {
 		    $id = $account->ID;
+		    $post_meta = get_post_meta($id);
 		    $company = $account->post_title;
 		    $phone = get_post_meta($account->ID, 'nrw_phone', true);
 		    $website = get_post_meta($account->ID, 'nrw_account_website', true);
@@ -226,7 +227,8 @@ class NrwBackMenuPage {
                 'id' => $id,
                 'company' => $company,
                 'phone' => $phone,
-                'website' => $website );
+                'website' => $website,
+                'post_meta' => $post_meta);
 		}
 
 		$options = get_option('nrw_dashboard_options');
@@ -277,6 +279,7 @@ class NrwBackMenuPage {
 		$data_sets = array();
 		foreach ($contacts as $contact) {
 		    $id = $contact->ID;
+		    $post_meta = get_post_meta($contact->ID);
 			$first_name = get_post_meta($contact->ID, 'nrw_first_name', true);
 			$last_name = get_post_meta($contact->ID, 'nrw_last_name', true);
 			$phone = get_post_meta($contact->ID, 'nrw_phone', true);
@@ -291,7 +294,8 @@ class NrwBackMenuPage {
                 'last_name' => $last_name,
                 'phone' => $phone,
                 'email' => $email,
-                'account' => $account );
+                'account' => $account,
+                'post_meta' => $post_meta);
 		}
 
 		$options = get_option('nrw_dashboard_options');

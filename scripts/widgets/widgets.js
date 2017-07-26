@@ -19,7 +19,7 @@ jQuery(document).ready( function($) {
             url: "options.php",
             data: form.serialize(),
             success: function( response ) {
-                console.log(response);
+                // console.log(response);
             }
         });
 

@@ -1,0 +1,114 @@
+/* The Modal (background) */
+.modal {
+    /*display: none; !* Hidden by default *!*/
+    /*position: fixed; !* Stay in place *!*/
+    /*z-index: 1; !* Sit on top *!*/
+    /*left: 0;*/
+    /*top: 0;*/
+    /*width: 100%; !* Full width *!*/
+    /*height: 100%; !* Full height *!*/
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.modal-primary {
+    margin-top: 100px;
+    border: 2px solid #7266ba;
+}
+.modal-primary .modal-header {
+    color: #fff;
+    background-color: #7266ba;
+    box-shadow: inset 0px -5px 10px #4d4292;
+    border-bottom: none;
+}
+.modal-primary .modal-header button {
+    color: #fff;
+    text-shadow: none;
+    transition: all .3s ease-in-out;
+}
+.modal-primary .modal-header button:hover {
+    color: #4d4292;
+    text-shadow: none;
+}
+.modal-primary .modal-body span {
+    color: #7266ba;
+}
+.modal-primary .modal-footer {
+    border-top: none;
+}
+
+form .list-group {
+    padding: 15px;
+}
+form .list-group-item {
+    padding: 0;
+}
+
+form .list-group .list-group-item input {
+    width: 100%;
+    height: 100%;
+    padding: 1.8em .8em .8em;
+    border: none;
+    background-color: rgba(242,242,242,.2);
+    font-size: 1.5em;
+}
+
+form .list-group .list-group-item input:focus {
+    outline: none;
+    background-color: rgba(0,0,0,0);
+}
+
+form .list-group .list-group-item label {
+    position: absolute;
+    top: 1em;
+    left: 1.5em;
+    font-size: .8em;
+    letter-spacing: 1px;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: #666;
+}
+
+form .list-group .list-group-item:first-child,
+form .list-group .list-group-item:last-child {
+    border-radius: 0;
+}
+
+
+
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+@-webkit-keyframes animatetop {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
+}
+
+@keyframes animatetop {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
+}

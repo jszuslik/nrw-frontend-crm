@@ -26,6 +26,8 @@ class NrwScriptsStyles {
 	}
 
 	public function load_scripts_styles() {
+		wp_register_style( 'nrw-bootstrap', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css');
+		wp_enqueue_style('nrw-bootstrap');
 		wp_register_style('nrw-form-styles', plugins_url() . '/nrw-frontend-crm/styles/forms/forms.css');
 		wp_enqueue_style('nrw-form-styles');
 		wp_register_script('nrw-form-scripts', plugins_url() . '/nrw-frontend-crm/scripts/forms/forms.js');
@@ -39,6 +41,11 @@ class NrwScriptsStyles {
 			'nrw-form-currency-scripts', plugins_url() . '/nrw-frontend-crm/scripts/forms/autoNumeric.min.js'
 		);
 		wp_enqueue_script('nrw-form-currency-scripts');
+
+		wp_register_script(
+			'nrw-jquery-bootstrap', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js', array('jquery')
+		);
+		wp_enqueue_script('nrw-jquery-bootstrap');
 		wp_register_script(
 			'nrw-jquery-tablesorter',
 			plugins_url() . '/nrw-frontend-crm/scripts/widgets/jquery.tablesorter.min.js', array('jquery')
@@ -64,6 +71,13 @@ class NrwScriptsStyles {
 			array('jquery')
 		);
 		wp_enqueue_script('nrw-widget-scripts');
+		wp_register_style('nrw-modal-styles', plugins_url() . '/nrw-frontend-crm/styles/modals/modals.css');
+		wp_enqueue_style('nrw-modal-styles');
+		wp_register_script(
+			'nrw-modal-scripts', plugins_url() . '/nrw-frontend-crm/scripts/modals/modals.js',
+			array('jquery')
+		);
+		wp_enqueue_script('nrw-modal-scripts');
 	}
 
 }
