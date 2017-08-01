@@ -100,7 +100,7 @@ class NrwHelpers {
 	}
 
 	public static function create_form_value_array($post_meta) {
-		p($post_meta);
+		//p($post_meta);
 		$form_values = array();
 		foreach($post_meta as $key => $value) {
 			switch($key) {
@@ -154,7 +154,7 @@ class NrwHelpers {
 					break;
 			}
 		}
-		p($form_values);
+		// p($form_values);
 		return $form_values;
 	}
 }
